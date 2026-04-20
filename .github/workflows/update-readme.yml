@@ -1,4 +1,4 @@
-name: Update README Progress
+name: Update README and Landing Page
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  update-readme:
+  update-readme-and-index:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,18 +23,18 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Update README sections
+      - name: Update README and index page
         run: python scripts/update_readme.py
 
       - name: Commit and push if changed
         run: |
-          if git diff --quiet README.md; then
-            echo "README is already up to date."
+          if git diff --quiet README.md index.html; then
+            echo "README and index.html are already up to date."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git commit -m "chore(readme): update progress and recent solutions"
+          git add README.md index.html
+          git commit -m "chore(site): update README progress and landing page"
           git push
